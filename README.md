@@ -15,7 +15,7 @@ http://www.vision.caltech.edu/visipedia/CUB-200-2011.html
 #### Model Inference
 https://github.com/qqwweee/keras-yolo3
 
-#### Our DataSet , annotation(xml) and trained model
+#### Our Dataset , Annotation(xml) and Trained model
 https://reurl.cc/ygDgmy
 
 

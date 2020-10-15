@@ -18,16 +18,79 @@ from yolo3.utils import letterbox_image
 import os
 from keras.utils import multi_gpu_model
 import paho.mqtt.publish as publish
+import time
+#import LoRaapi
 
-# MQTT server setup
+
+#MQTT_SERVER = "140.127.196.41"
 MQTT_SERVER = "192.168.1.102"
-MQTT_TOPIC = "home"
+
+import serial
+import serial.tools.list_ports
+
+class LoRaapi:
+    number=0
+    def __init__(self, port_num):
+        state=True
+        #number=0
+        while state==True:
+            self.PortList = serial.tools.list_ports.comports()#print port and board
+            print(len(self.PortList))
+            for i in range(len(self.PortList)):
+                print("list==",i)
+                print("port num==",self.PortList[i].device)
+                if self.PortList[i].device==port_num:
+                    print("port num==",self.PortList[i].device)
+                    self.serial_port = serial.Serial(
+                        port = port_num,
+                        baudrate = 115200,
+                        bytesize = serial.EIGHTBITS,
+                        parity = serial.PARITY_NONE,
+                        stopbits = serial.STOPBITS_ONE,
+                        timeout = 1.0,
+                    )
+                    number=i
+                    self.serial_port.write(b'sip get_hw_model')
+##                    c=self.serial_port.read(10)
+##                    print(c)
+                    c=self.serial_port.read_until(b'S76S\n')
+                    print(c)
+                    #self.serial_port.close()
+                    state=False
+    def transmit(self,lora_num,data):
+        print(self.PortList[self.number].device)
+        print(lora_num)
+        print(type(lora_num))
+        print(data)
+        print(type(data))
+        b=lora_num+data
+        print(b)
+        print(type(b))
+        b=str.encode(b)
+        print(b)
+        print(type(b))
+        d=b'rf tx '+b
+        print(d)
+        self.serial_port.write(d)
+        c=self.serial_port.read_until(b'S76S')
+        #d=self.serial_port.read_until(b'ok')
+        print(c)
+        if c[5]==79 and c[6]==107:
+            if c[22]==111 and c[23]==107:
+                print("以傳成功")
+            elif c[19]==101 and c[20]==114 and c[21]==114:
+                print("沒傳成功,reset")
+        elif c[5]==73 and c[6]==110 and c[7]==118 and c[8]==97 and c[9]==108 and c[10]==105 and c[11]==100:
+            print("Invalid")
+
+
+
 
 class YOLO(object):
     _defaults = {
-        "model_path": 'model_data/yolov3-bird_18000.h5',	# your file
-        "anchors_path": 'model_data/yolo_anchors.txt',		# your file
-        "classes_path": 'model_data/coco_classes_bird.txt',	# your file
+        "model_path": 'Yolov3_model_h5/yolov3-tiny-bird_15000.h5',	#model_data/yolov3-tiny-bird_30000.h5 #V3_h5/yolov3-bird_18000.h5
+        "anchors_path": 'model_data/tiny_yolo_anchors.txt',	#yolo_anchors.txt
+        "classes_path": 'model_data/coco_classes_bird.txt',	#coco_classes_bird.txt
         "score" : 0.5,
         "iou" : 0.45,
         "model_image_size" : (416, 416), 
@@ -128,6 +191,11 @@ class YOLO(object):
                 self.input_image_shape: [image.size[1], image.size[0]],
                 K.learning_phase(): 0
             })
+
+        #current time
+        seconds = time.time()
+        bird_time = time.ctime(seconds)
+
         print()
         print('Found {} boxes for {}'.format(len(out_boxes), 'img'))
 
@@ -135,6 +203,7 @@ class YOLO(object):
             appear_bird = True
         else:
             appear_bird = False
+        bird_count = len(out_boxes)
 
         font = ImageFont.truetype(font='font/FiraMono-Medium.otf',
                     size=np.floor(3e-2 * image.size[1] + 0.5).astype('int32'))
@@ -174,7 +243,7 @@ class YOLO(object):
         
         end = timer()
         print(end - start)
-        return image, appear_bird
+        return image, appear_bird, bird_count, bird_time
 
     def close_session(self):
         self.sess.close()
@@ -206,11 +275,25 @@ def gstreamer_pipeline(
         )
     )
 
+def send_data(bird_count, bird_time):
+    f=open("result.jpg", "rb") #3.7kiB in same folder
+
+    fileContent = f.read()
+    byteArr = bytearray(fileContent)
+    
+    publish.single("AIoT/bird_images", byteArr, hostname=MQTT_SERVER)
+    publish.single("AIoT/bird_count", bird_count, hostname=MQTT_SERVER)
+    publish.single("AIoT/bird_time", bird_time, hostname=MQTT_SERVER)
+
+
 def detect_video(yolo, video_path, output_path=""):
     import cv2
+    vid = cv2.VideoCapture(video_path)
 
-    print(gstreamer_pipeline(flip_method=0))
-    vid = cv2.VideoCapture(gstreamer_pipeline(flip_method=0), cv2.CAP_GSTREAMER)
+    #print(gstreamer_pipeline(flip_method=0))
+    #vid = cv2.VideoCapture(gstreamer_pipeline(flip_method=0), cv2.CAP_GSTREAMER)
+
+    #vid = cv2.VideoCapture(0)
 
     if not vid.isOpened():
         raise IOError("Couldn't open webcam or video")
@@ -229,14 +312,18 @@ def detect_video(yolo, video_path, output_path=""):
  
     second_appear = False
     temp = 0
+    
+    test = LoRaapi("/dev/ttyUSB0")
     while True:
         return_value, frame = vid.read()
         image = Image.fromarray(frame)
-        image, appear_bird = yolo.detect_image(image)
+        image, appear_bird, bird_count, bird_time = yolo.detect_image(image)
         print(appear_bird)
 
         if appear_bird==True and second_appear==True:
             print("Open U.S !!")
+            test.transmit("01", "1111")
+            test.transmit("01", "1100")
             second_appear = False
         elif appear_bird==True:
             second_appear = True
@@ -258,16 +345,16 @@ def detect_video(yolo, video_path, output_path=""):
 
         cv2.namedWindow("result", cv2.WINDOW_NORMAL)
         cv2.imshow("result", result)
-
-        #send images
         cv2.imwrite("result.jpg", result)
-        #fileContent = result
+        
+        #send_data(bird_count, bird_time)
+        #send images
+        """
         f=open("result.jpg", "rb") #3.7kiB in same folder
         fileContent = f.read()
-        
         byteArr = bytearray(fileContent)
         publish.single(MQTT_TOPIC, byteArr, hostname=MQTT_SERVER)
-
+        """
         if isOutput:
             out.write(result)
         if cv2.waitKey(1) & 0xFF == ord('q'):

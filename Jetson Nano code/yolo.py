@@ -28,6 +28,7 @@ MQTT_SERVER = "192.168.1.102"
 import serial
 import serial.tools.list_ports
 
+#LoRa module transmission
 class LoRaapi:
     number=0
     def __init__(self, port_num):
@@ -77,14 +78,11 @@ class LoRaapi:
         print(c)
         if c[5]==79 and c[6]==107:
             if c[22]==111 and c[23]==107:
-                print("以傳成功")
+                print("Successful")
             elif c[19]==101 and c[20]==114 and c[21]==114:
-                print("沒傳成功,reset")
+                print("Not successful,reset")
         elif c[5]==73 and c[6]==110 and c[7]==118 and c[8]==97 and c[9]==108 and c[10]==105 and c[11]==100:
             print("Invalid")
-
-
-
 
 class YOLO(object):
     _defaults = {

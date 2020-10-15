@@ -19,14 +19,11 @@ import os
 from keras.utils import multi_gpu_model
 import paho.mqtt.publish as publish
 import time
-#import LoRaapi
-
+import serial
+import serial.tools.list_ports
 
 #MQTT_SERVER = "140.127.196.41"
 MQTT_SERVER = "192.168.1.102"
-
-import serial
-import serial.tools.list_ports
 
 #LoRa module transmission
 class LoRaapi:

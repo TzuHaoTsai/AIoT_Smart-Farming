@@ -1,5 +1,4 @@
 # AIoT_Smart-Farming
-This system is in the development stage.
 
 ## Abstract
 In recent years, with the maturity of deep learning technology, the problem of image recognition has become easier to solve, and it has begun to be applied to various industries. This paper attempts to apply this technology to solve the problem of bird damage in traditional agriculture. Among agricultural damages, apart from natural disasters, the largest case should be the eating disasters of birds or insects. In this paper, we propose the architecture and prototype design of a bird repellent system based on artificial intelligence of things (AIoT). In this system, we train a neural network model that can recognize birds, and implement it on a small single-board computer equipped with GPU (NVIDIA Jetson Nano). The system will be set up in the farmland, and capture the image via camera. If there is a bird group, it will activate the ultrasonic bird-repellent device through a long-range LPWAN  (Low-Power WAN) wireless network  to drive the bird away.

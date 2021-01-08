@@ -22,7 +22,8 @@ In recent years, with the maturity of deep learning technology, the problem of i
 *而您也可以蒐集更多具有鳥群物件的圖片，並自行對圖片進行標記，就可以訓練出屬於自己的神經網路模型。
 
 ### 1.4 Inference
-經過模型的驗證後，若準確率為佳，即可在NVIDIA Jetson Nano上進行影像推論，使用OpenCV套件導入預錄好的影片，並且透過keras套件將訓練完成的模型導入程式中，依序地對每一張影像進行模型推論，而作者在實驗過程中觀察到影像的fps(Frame per Second)落在4~6幀。
+經過模型的驗證後，若準確率為佳，就可以在NVIDIA Jetson Nano上進行影像推論。
+本文作者採用畫面寬高值為1280(px)*720(px)、AVC視訊編碼方式的測試影片做為作驗證使用。在程式碼中使用 OpenCV套件導入預錄好的影片，並且採用 keras套件將訓練完成的模型導入程式中，依序地對每一張圖片進行模型推論，而實驗過程中觀察到影像串流的 fps(Frame per Second)落在4~6幀。
 
 *您也可以採用像是Caffe、TensorRT等模型框架進行影像推論，就有可能達到更即時的處理速度。
 

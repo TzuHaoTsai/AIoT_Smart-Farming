@@ -14,7 +14,7 @@ In recent years, with the maturity of deep learning technology, the problem of i
 *本文作者採用 Jetpack SDK 4.2的映像檔於Jetson Nano，系統為 Ubuntu(18.04版)的作業系統、CUDA(10.0版)，並且含有 python(3.6.9版)軟體，而執行影像推論程式碼(YOLOv3)所需的主要套件為keras(2.2.4版)、tensorflow-gpu(1.13.1版)。
 
 ### 1.2 YOLO: Real-Time Object Detection
-本文作者採用Ubuntu作業系統來架設YOLOv3的模型訓練環境，請參考[3]說明書來架設運行環境，就可以開始進行鳥群物件辨識的模型訓練。
+本文作者採用Ubuntu作業系統來架設YOLOv3的模型訓練環境，請參考[3]說明書來架設運行環境，就可以開始進行模型的訓練。
 
 ### 1.3 Model Training
 本文作者採用[4]COCO dataset(2014)取得2240張含有鳥類的圖片(images)與其標記(Annotations)檔，並捨去一些在農田中較少出現的鳥類圖片，保留了810張圖片當作訓練用的資料集，接下來運行官網[3]提供的程式碼來進行模型的訓練，隨後將產生出來的模型檔進行影像推論，並且驗證其模型之成效。
@@ -23,16 +23,19 @@ In recent years, with the maturity of deep learning technology, the problem of i
 
 ### 1.4 Inference
 經過模型的驗證後，若準確率為佳，就可以在NVIDIA Jetson Nano上採用 keras-yolo3 : https://github.com/qqwweee/keras-yolo3 進行影像推論。
-本文作者採用畫面寬高值為1280(px)*720(px)、AVC視訊編碼方式的測試影片做為作驗證使用。在程式碼中使用 OpenCV套件導入預錄好的影片，並且採用 keras套件將訓練完成的模型導入程式中，依序地對每一張圖片進行模型推論，而實驗過程中觀察到影像串流的 fps(Frame per Second)落在4~6幀。
 
-*您也可以採用像是Caffe、TensorRT等模型框架進行影像推論，就有可能達到更即時的處理速度。
+我們採用畫面寬高值為1280(px)*720(px)、AVC視訊編碼方式的測試影片做為作驗證使用。在程式碼中使用 OpenCV套件導入預錄好的影片，並且採用 keras套件將訓練完成的模型導入程式中，依序地對每一張圖片進行模型推論，而實驗過程中觀察到影像串流的 fps(Frame per Second)落在4~6幀。
+
+*您也可以採用像是Caffe、TensorRT等模型框架進行影像推論，就可能達到更快的推論速度。
 
 ### 1.5	MQTT Broker
 從官方網站下載[5]mosquitto軟體並開啟此服務，Window 10 作業系統中點選”開始” → 搜尋”電腦管理” → 滑鼠左鍵點選 ”服務與應用程式” → 滑鼠左鍵點選 ”服務” → 滑鼠右鍵點選 ”Mosquitto Broker” ，即可啟動服務。
+
 下載[6]MQTT.fx軟體來測試MQTT Broker是否能成功運行，預先設定好IP Address與port並成功連線，再測試對主題(Topic)的發布與訂閱(Publish/Subscribe)。
 
 ### 1.6	Node-RED & MariaDB 
 安裝[7]MariaDB資料庫管理系統，安裝後即可開啟HeidiSQL資料庫管理工具，新增並選擇想要建立的網路類型，創建後即可創建資料表與填寫資料欄位。
+
 下載[8]Node.js與Node-RED，我們即可透過Node-RED撈取MQTT Broker中特定主題(Topic)的資料，並且將資料新增到資料庫中。
 
 ## Reference

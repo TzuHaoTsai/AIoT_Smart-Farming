@@ -6,10 +6,6 @@ In recent years, with the maturity of deep learning technology, the problem of i
 ## System structure
 ![image](https://github.com/TzuHaoTsai/AIoT_Smart-Farming/blob/main/Smart-Farming-System.png)
 
-
-
-
-
 ## 實驗步驟
 
 ### 1.1 NVIDIA Jetson Nano

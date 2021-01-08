@@ -11,7 +11,7 @@ In recent years, with the maturity of deep learning technology, the problem of i
 ### 1.1 NVIDIA Jetson Nano
 請參考[1]說明書來完成系統的架設與安裝，隨後至[2]安裝tensorflow等相依套件，完成後即可進入下一個步驟。
 
-*本文作者採用 Jetpack SDK 4.2的映像檔於Jetson Nano，系統為 Ubuntu(18.04版)的作業系統、CUDA(10.0版)，並且含有 python(3.6.9版)軟體，而執行影像推論程式碼(YOLOv3)所需的主要套件為keras(2.2.4版)、tensorflow-gpu(1.13.1版)。
+*本文作者採用 Jetpack SDK 4.2的映像檔於Jetson Nano，系統為 Ubuntu(18.04版)的作業系統，含有CUDA(10.0版)與 python(3.6.9版)軟體，而執行影像推論程式碼(YOLOv3)所需的主要套件為 keras(2.2.4版)、tensorflow-gpu(1.13.1版)。
 
 ### 1.2 YOLO: Real-Time Object Detection
 本文作者採用Ubuntu作業系統來架設YOLOv3的模型訓練環境，請參考[3]說明書來架設運行環境，就可以開始進行模型的訓練。
@@ -22,9 +22,9 @@ In recent years, with the maturity of deep learning technology, the problem of i
 *而您也可以蒐集更多具有鳥群物件的圖片，並自行對圖片進行標記，就可以訓練出屬於自己的神經網路模型。
 
 ### 1.4 Inference
-經過模型的驗證後，若準確率為佳，就可以在NVIDIA Jetson Nano上採用 keras-yolo3 : https://github.com/qqwweee/keras-yolo3 進行影像推論。
+經過模型的驗證後，若準確率為佳，就可以在 NVIDIA Jetson Nano 上採用 keras-yolo3 : https://github.com/qqwweee/keras-yolo3 進行影像推論。
 
-我們採用畫面寬高值為1280(px)*720(px)、AVC視訊編碼方式的測試影片做為作驗證使用。在程式碼中使用 OpenCV套件導入預錄好的影片，並且採用 keras套件將訓練完成的模型導入程式中，依序地對每一張圖片進行模型推論，而實驗過程中觀察到影像串流的 fps(Frame per Second)落在4~6幀。
+我們採用畫面寬高值為 1280(px)*720(px)、AVC視訊編碼方式的測試影片做為作驗證使用。在程式碼中使用 OpenCV套件導入預錄好的影片，並且採用 keras套件將訓練完成的模型導入程式中，依序地對每一張圖片進行模型推論，而實驗過程中觀察到影像串流的 fps(Frame per Second)落在4~6幀。
 
 *您也可以採用像是Caffe、TensorRT等模型框架進行影像推論，就可能達到更快的推論速度。
 

@@ -29,7 +29,11 @@ https://github.com/qqwweee/keras-yolo3
 https://reurl.cc/ygDgmy
 
 [7] Mosquitto 軟體安裝 : https://mosquitto.org/
+
 [8] MQTT.fx 軟體安裝 : https://mqttfx.jensd.de/
+
 [9] Mariadb 軟體安裝 : https://downloads.mariadb.org/mariadb/
+
 [10] Node-RED & Node.js 軟體安裝 : https://nodered.org/docs/getting-started/windows#1-install-nodejs
+
 

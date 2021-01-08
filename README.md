@@ -8,6 +8,7 @@ This system is in the development stage.
 
 ### 1.1 NVIDIA Jetson Nano
 請參考[1]說明書來完成系統的架設與安裝，隨後至[2]安裝tensorflow等相依套件，完成後即可進入下一個步驟。
+
 *本文作者採用 Jetpack SDK 4.2的映像檔於Jetson Nano，系統為 Ubuntu(18.04版)的作業系統、CUDA(10.0版)，並且含有 python(3.6.9版)軟體，而執行影像推論程式碼(YOLOv3)所需的主要套件為keras(2.2.4版)、tensorflow-gpu(1.13.1版)。
 
 ### 1.2 YOLO: Real-Time Object Detection
@@ -15,10 +16,12 @@ This system is in the development stage.
 
 ### 1.3 Model Training
 本文作者採用COCO dataset(2014)[4]取得2240張含有鳥類的圖片(images)與其標記(Annotations)檔，並捨去一些在農田中較少出現的鳥類圖片，保留了810張圖片當作訓練用的資料集，接下來運行官網[3]提供的程式碼來進行模型的訓練，隨後將產生出來的模型檔進行影像推論，並且驗證其模型之成效。
+
 *而您也可以蒐集更多具有鳥群物件的圖片，並自行對圖片進行標記，就可以訓練出屬於自己的神經網路模型。
 
 ### 1.4 Inference
 經過模型的驗證後，若準確率為佳，即可在NVIDIA Jetson Nano上進行影像推論，使用OpenCV套件導入預錄好的影片，並且透過keras套件將訓練完成的模型導入程式中，依序地對每一張影像進行模型推論，而實驗過程中觀察到影像的fps(Frame per Second)落在4~6幀，
+
 *您也可以採用其他模型套件進行影像推論，像是Caffe、。
 
 ### 1.	MQTT Broker
@@ -45,11 +48,11 @@ https://reurl.cc/ygDgmy
 
 ## Reference
 
-[1] https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit
+[1] NVIDIA Jetson Nano : https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit
 
-[2] https://docs.nvidia.com/deeplearning/frameworks/install-tf-jetson-platform/index.html
+[2] NVIDIA Jetson Nano : https://docs.nvidia.com/deeplearning/frameworks/install-tf-jetson-platform/index.html
 
-[3] https://pjreddie.com/darknet/yolo/
+[3] YOLO: Real-Time Object Detection : https://pjreddie.com/darknet/yolo/
 
 [4]	COCO Dataset : https://cocodataset.org/#home
 

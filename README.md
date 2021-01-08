@@ -8,7 +8,7 @@ This system is in the development stage.
 
 ### 1.1	MQTT Broker 架設流程
 從官方網站[7]下載mosquitto軟體並開啟此服務，Window 10 作業系統中點選”開始” → 搜尋”電腦管理” → 滑鼠左鍵點選 ”服務與應用程式” → 滑鼠左鍵點選 ”服務” → 滑鼠右鍵點選 ”Mosquitto Broker” ，即可啟動服務。
-如[8]，下載MQTT.fx軟體來測試MQTT Broker是否能成功運行，預先設定好IP Address與port並成功連線，再測試對主題(Topic)的發布與訂閱(Publish/Subscribe)。
+至[8]下載MQTT.fx軟體來測試MQTT Broker是否能成功運行，預先設定好IP Address與port並成功連線，再測試對主題(Topic)的發布與訂閱(Publish/Subscribe)。
 
 ### 1.2	Node-RED 與 MariaDB 的架設與運作流程
 至[9]安裝MariaDB資料庫管理系統，安裝後即可開啟HeidiSQL資料庫管理工具，新增並選擇想要建立的網路類型，創建後即可創建資料表與填寫資料欄位。

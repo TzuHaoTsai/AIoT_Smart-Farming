@@ -40,7 +40,7 @@ In recent years, with the maturity of deep learning technology, the problem of i
 
 ## Reference
 
-[1]: NVIDIA Jetson Nano : https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit
+[1] NVIDIA Jetson Nano : https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit
 
 [2] NVIDIA Jetson Nano : https://docs.nvidia.com/deeplearning/frameworks/install-tf-jetson-platform/index.html
 

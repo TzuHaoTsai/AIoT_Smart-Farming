@@ -40,9 +40,9 @@ In recent years, with the maturity of deep learning technology, the problem of i
 
 ## Reference
 
-[1] NVIDIA Jetson Nano : https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit
+[1] NVIDIA Jetson Nano - Preparation : https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit
 
-[2] NVIDIA Jetson Nano : https://docs.nvidia.com/deeplearning/frameworks/install-tf-jetson-platform/index.html
+[2] NVIDIA Jetson Nano - Tensorflow-gpu : https://docs.nvidia.com/deeplearning/frameworks/install-tf-jetson-platform/index.html
 
 [3] YOLO: Real-Time Object Detection : https://pjreddie.com/darknet/yolo/
 

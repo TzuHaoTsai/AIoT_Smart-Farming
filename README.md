@@ -6,6 +6,9 @@ In recent years, with the maturity of deep learning technology, the problem of i
 ## System structure
 ![image](https://github.com/TzuHaoTsai/AIoT_Smart-Farming/blob/main/images/System%20structure.png)
 
+![image](https://github.com/TzuHaoTsai/AIoT_Smart-Farming/blob/main/images/%E6%99%BA%E6%85%A7%E9%B3%A5%E7%BE%A4%E8%BE%A8%E8%AD%98%E6%94%9D%E5%BD%B1%E6%A9%9F.png)
+![image](https://github.com/TzuHaoTsai/AIoT_Smart-Farming/blob/main/images/%E8%B6%85%E9%9F%B3%E6%B3%A2%E9%A9%85%E9%B3%A5%E5%99%A8.png)
+
 ## 實驗步驟
 
 ### 1.1 Mestek LinkIt 7697

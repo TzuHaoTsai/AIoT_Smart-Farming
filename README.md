@@ -30,14 +30,14 @@ In recent years, with the maturity of deep learning technology, the problem of i
 ### 1.5 Inference
 經過模型的驗證後，若準確率為佳，就可以在 NVIDIA Jetson Nano 上採用 keras-yolo3 : https://github.com/qqwweee/keras-yolo3 進行影像推論，而執行影像推論程式(yolo_video.py)時所需的主要套件為 keras(2.2.4版)、tensorflow-gpu(1.13.1版)。
 
-您可以先運行 keras-yolo3 所提供的影像推論程式(yolo_video.py)做影像推論，本文作者採用畫面寬高值為 1280(px)*720(px)、AVC視訊編碼方式的測試影片(https://reurl.cc/AgqgVK) 作為驗證使用。在程式碼中，由 OpenCV 套件導入測試用的影片(test.mp4)，並且採用 keras 套件將訓練完成的模型導入程式中，依序地對每一張圖片進行模型推論，而實驗過程中觀察到影像串流的 fps(Frame per Second)落在4~6幀。
+您可以先運行 keras-yolo3 所提供的影像推論程式(yolo_video.py)做影像推論，本文作者採用畫面寬高值為 1280(px)*720(px)、AVC視訊編碼方式的測試影片(https://reurl.cc/4yRQbj) 作為驗證使用。在程式碼中，由 OpenCV 套件導入測試用的影片(test.mp4)，並且採用 keras 套件將訓練完成的模型導入程式中，依序地對每一張圖片進行模型推論，而實驗過程中觀察到影像串流的 fps(Frame per Second)落在4~6幀。
 
 ![image](https://github.com/TzuHaoTsai/AIoT_Smart-Farming/blob/main/images/result.jpg)
 
 *您也可以採用像是 Caffe、TensorRT 等模型框架進行影像推論，就可能達到更快的推論速度。
 
 ### 1.6	MQTT Broker
-若您想使用攝影鏡頭讀取影像進行影像推論，且 Jetson Nano 的資料上傳至雲端，就得要把 keras-yolo3 的 yolo.py 捨棄掉，取代為本文的 Jetson Nano code/yolo.py，我們新增了 LoRa module 指令傳送、MQTT 資料上雲等程式碼。
+若您想使用攝影鏡頭讀取影像進行影像推論，並且將 NVIDIA Jetson Nano 的資料上傳至雲端，就得要把 keras-yolo3 的 yolo.py 捨棄掉，取代為本文的 Jetson Nano code/yolo.py，我們添加了 LoRa module 指令傳送、MQTT 資料上雲等程式碼。
 
 從官方網站下載[5]mosquitto軟體並開啟此服務，在本機 Window 10 作業系統中點選”開始” → 搜尋”電腦管理” → 滑鼠左鍵點選 ”服務與應用程式” → 滑鼠左鍵點選 ”服務” → 滑鼠右鍵點選 ”Mosquitto Broker” ，即可啟動服務。
 

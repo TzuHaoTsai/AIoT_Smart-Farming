@@ -34,7 +34,7 @@ In recent years, with the maturity of deep learning technology, the problem of i
 ### 1.6	MQTT Broker
 若您想讓 Jetson Nano 的資料上傳至雲端，首先得要把 keras-yolo3 的 yolo.py 捨棄掉，取代為本文的 Jetson Nano code/yolo.py，我們新增了 LoRa module 指令傳送、MQTT 資料上雲等程式碼。
 
-從官方網站下載[5]mosquitto軟體並開啟此服務，在 Window 10 作業系統中點選”開始” → 搜尋”電腦管理” → 滑鼠左鍵點選 ”服務與應用程式” → 滑鼠左鍵點選 ”服務” → 滑鼠右鍵點選 ”Mosquitto Broker” ，即可啟動服務。
+從官方網站下載[5]mosquitto軟體並開啟此服務，在本機 Window 10 作業系統中點選”開始” → 搜尋”電腦管理” → 滑鼠左鍵點選 ”服務與應用程式” → 滑鼠左鍵點選 ”服務” → 滑鼠右鍵點選 ”Mosquitto Broker” ，即可啟動服務。
 
 下載[6]MQTT.fx 軟體來測試 MQTT Broker 是否能成功運行，預先設定好 IP Address 與 port 並成功連線，再測試對主題(Topic)的發布與訂閱(Publish/Subscribe)。
 
@@ -56,6 +56,9 @@ In recent years, with the maturity of deep learning technology, the problem of i
 
 經過部署後，Node-RED 就可撈取 MQTT Broker 中特定主題(Topic)的資料，並且將資料新增至資料庫。
 
+### 1.8 Server
+本文作者採用的[9]PyCharm 作為後臺運作的環境，您需要創立一個新的專案，並且運行 Server code/image_post.py 程式碼，即可將辨識出鳥群的圖片傳送到 Node-RED dashboard 上。
+
 ## Reference
 
 [1] NVIDIA Jetson Nano - Preparation : https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit
@@ -74,5 +77,5 @@ In recent years, with the maturity of deep learning technology, the problem of i
 
 [8] Node-RED & Node.js : https://nodered.org/docs/getting-started/windows#1-install-nodejs
 
-
+[9] Pycharm : https://www.jetbrains.com/pycharm/
 

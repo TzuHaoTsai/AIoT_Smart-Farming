@@ -44,8 +44,9 @@ In recent years, with the maturity of deep learning technology, the problem of i
 *以下圖片是作者所新增的資料表與資料欄位
 ![image](https://github.com/TzuHaoTsai/AIoT_Smart-Farming/blob/main/images/SQL_2.png)
 
-下載[8]Node.js與Node-RED，我們即可透過Node-RED撈取MQTT Broker中特定主題(Topic)的資料，並且將資料新增到資料庫中。
+下載[8]Node.js與Node-RED，並導入我們即可透過Node-RED撈取MQTT Broker中特定主題(Topic)的資料，並且將資料新增到資料庫中。
 
+*請點擊紅色框選處的節點，並且將 MQTT服務端設定為您自己的 IP 與 Port
 
 ## Reference
 

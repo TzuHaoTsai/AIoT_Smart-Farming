@@ -15,9 +15,9 @@ In recent years, with the maturity of deep learning technology, the problem of i
 請將 LinkIt 7697 code/US_Launcher.ino 燒入於 LinkIt 7697 中，並且完成 LinkIt 7967 與超音波發射器的電路連接。
 
 ### 1.2 NVIDIA Jetson Nano
-請參考[1]說明書來完成系統的架設與安裝，隨後至[2]安裝 tensorflow等相依套件，完成後即可進入下一個步驟。
+請參考[1]說明書來完成系統的架設與安裝，隨後至[2]安裝 tensorflow 等相依套件，完成後即可進入下一個步驟。
 
-*本文作者採用 Jetpack SDK 4.2的映像檔於 Jetson Nano，系統為 Ubuntu(18.04版)的作業系統，含 CUDA(10.0版)與 python(3.6.9版)。
+*本文作者採用 Jetpack SDK 4.2 的映像檔於 Jetson Nano，系統為 Ubuntu(18.04版) 的作業系統，含 CUDA(10.0版) 與 python(3.6.9版)。
 
 ### 1.3 YOLO: Real-Time Object Detection
 本文作者採用 Ubuntu 作業系統來架設 YOLOv3 的模型訓練環境，請參考[3]說明書來架設運行環境，就可以開始進行模型的訓練。

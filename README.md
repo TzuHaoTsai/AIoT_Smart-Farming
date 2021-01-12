@@ -42,17 +42,18 @@ In recent years, with the maturity of deep learning technology, the problem of i
 
 *以下圖片是作者所建立的資料庫
 ![image](https://github.com/TzuHaoTsai/AIoT_Smart-Farming/blob/main/images/SQL_1.png)
+
 成功創建資料庫後，即可新增資料表與資料欄位。
 
 *以下圖片是作者所新增的資料表與資料欄位
 ![image](https://github.com/TzuHaoTsai/AIoT_Smart-Farming/blob/main/images/SQL_2.png)
+
 下載[8] Node.js 與 Node-RED，並導入 Server code/MQTT_DBS_Chart.json。
 
 *請點擊紅色框選處的節點，並且伺服端的欄位設定為您架設 MQTT Broker 的 IP Address 與 Port
 ![image](https://github.com/TzuHaoTsai/AIoT_Smart-Farming/blob/main/images/NodeRED_1.png)
+
 經過部署後，Node-RED 就可撈取 MQTT Broker 中特定主題(Topic)的資料，並且將資料新增至資料庫。
-
-
 
 ## Reference
 

@@ -9,20 +9,24 @@ In recent years, with the maturity of deep learning technology, the problem of i
 ## 實驗步驟
 
 ### 1.1 NVIDIA Jetson Nano
-請參考[1]說明書來完成系統的架設與安裝，隨後至[2]安裝tensorflow等相依套件，完成後即可進入下一個步驟。
+請參考 [1]說明書來完成系統的架設與安裝，隨後至 [2]安裝 tensorflow等相依套件，完成後即可進入下一個步驟。
 
-*本文作者採用 Jetpack SDK 4.2的映像檔於Jetson Nano，系統為 Ubuntu(18.04版)的作業系統，含有CUDA(10.0版)與 python(3.6.9版)軟體，而執行影像推論程式碼(YOLOv3)所需的主要套件為 keras(2.2.4版)、tensorflow-gpu(1.13.1版)。
+*本文作者採用 Jetpack SDK 4.2的映像檔於 Jetson Nano，系統為 Ubuntu(18.04版)的作業系統，含 CUDA(10.0版)與 python(3.6.9版)。
 
 ### 1.2 YOLO: Real-Time Object Detection
-本文作者採用 Ubuntu 作業系統來架設 YOLOv3 的模型訓練環境，請參考[3]說明書來架設運行環境，就可以開始進行模型的訓練。
+本文作者採用 Ubuntu 作業系統來架設 YOLOv3 的模型訓練環境，請參考 [3]說明書來架設運行環境，就可以開始進行模型的訓練。
 
 ### 1.3 Model Training
-本文作者採用[4]COCO dataset(2014)取得2240張含有鳥類的圖片(images)與其標記(Annotations)檔，並捨去一些在農田中較少出現的鳥類圖片，保留了810張圖片當作訓練用的資料集，接下來運行官網[3]提供的程式碼來進行模型的訓練，隨後將產生出來的模型檔進行影像推論，並且驗證其模型之成效。
+本文作者採用 [4]COCO dataset(2014)取得2240張含有鳥類的圖片(images)與其標記(Annotations)檔，並捨去一些在農田中較少出現的鳥類圖片，保留了810張圖片當作訓練用的資料集，接下來運行官網 [3]提供的程式碼來進行模型的訓練，隨後將產生出來的模型檔進行影像推論，並且驗證其模型之成效。
 
 *而您也可以蒐集更多具有鳥群物件的圖片，並自行對圖片進行標記，就可以訓練出屬於自己的神經網路模型。
 
 ### 1.4 Inference
-經過模型的驗證後，若準確率為佳，就可以在 NVIDIA Jetson Nano 上採用 keras-yolo3 : https://github.com/qqwweee/keras-yolo3 進行影像推論。
+經過模型的驗證後，若準確率為佳，就可以在 NVIDIA Jetson Nano 上採用 keras-yolo3 : https://github.com/qqwweee/keras-yolo3 進行影像推論，而執行影像推論程式(yolo_video.py)時所需的主要套件為 keras(2.2.4版)、tensorflow-gpu(1.13.1版)。
+
+
+將 keras-yolo3 的 yolo.py 捨棄，取代為本文的 Jetson Nano code/yolo.py，我們新增了 LoRa module 指令傳送、MQTT 資料上雲等程式碼。
+
 
 我們採用畫面寬高值為 1280(px)*720(px)、AVC視訊編碼方式的測試影片(https://reurl.cc/5oloGV)作為驗證使用。在程式碼中，由 OpenCV 套件導入測試用的影片(test.mp4)，並且採用 keras 套件將訓練完成的模型導入程式中，依序地對每一張圖片進行模型推論，而實驗過程中觀察到影像串流的 fps(Frame per Second)落在4~6幀。
 
@@ -31,10 +35,10 @@ In recent years, with the maturity of deep learning technology, the problem of i
 ### 1.5	MQTT Broker
 從官方網站下載[5]mosquitto軟體並開啟此服務，在 Window 10 作業系統中點選”開始” → 搜尋”電腦管理” → 滑鼠左鍵點選 ”服務與應用程式” → 滑鼠左鍵點選 ”服務” → 滑鼠右鍵點選 ”Mosquitto Broker” ，即可啟動服務。
 
-下載[6] MQTT.fx 軟體來測試 MQTT Broker 是否能成功運行，預先設定好 IP Address 與 port 並成功連線，再測試對主題(Topic)的發布與訂閱(Publish/Subscribe)。
+下載 [6]MQTT.fx 軟體來測試 MQTT Broker 是否能成功運行，預先設定好 IP Address 與 port 並成功連線，再測試對主題(Topic)的發布與訂閱(Publish/Subscribe)。
 
 ### 1.6	Node-RED & MariaDB 
-安裝[7] MariaDB 資料庫管理系統，隨後開啟 HeidiSQL 資料庫管理工具，即可新增欲建立的資料庫網路類型。
+安裝 [7]MariaDB 資料庫管理系統，隨後開啟 HeidiSQL 資料庫管理工具，即可新增欲建立的資料庫網路類型。
 
 *以下圖片是作者所建立的資料庫
 ![image](https://github.com/TzuHaoTsai/AIoT_Smart-Farming/blob/main/images/SQL_1.png)

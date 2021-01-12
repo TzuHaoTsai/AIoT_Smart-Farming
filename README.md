@@ -11,8 +11,8 @@ In recent years, with the maturity of deep learning technology, the problem of i
 
 ## 實驗步驟
 
-### 1.1 Mestek LinkIt 7697
-請將 LinkIt 7697 code/US_Launcher.ino 燒入於 LinkIt 7697 中，並且完成 LinkIt 7697 與超音波發射器的電路連接。
+### 1.1 MediaTek LinkIt 7697
+請將 LinkIt 7697 code/US_Launcher.ino 燒入於 LinkIt 7697 中，並且完成 LinkIt 7967 與超音波發射器的電路連接。
 
 ### 1.2 NVIDIA Jetson Nano
 請參考[1]說明書來完成系統的架設與安裝，隨後至[2]安裝 tensorflow等相依套件，完成後即可進入下一個步驟。

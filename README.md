@@ -31,14 +31,14 @@ In recent years, with the maturity of deep learning technology, the problem of i
 
 *您也可以採用像是 Caffe、TensorRT 等模型框架進行影像推論，就可能達到更快的推論速度。
 
-### 1.5	MQTT Broker
+### 1.6	MQTT Broker
 若您想讓 Jetson Nano 的資料上傳至雲端，首先得要把 keras-yolo3 的 yolo.py 捨棄掉，取代為本文的 Jetson Nano code/yolo.py，我們新增了 LoRa module 指令傳送、MQTT 資料上雲等程式碼。
 
 從官方網站下載[5]mosquitto軟體並開啟此服務，在 Window 10 作業系統中點選”開始” → 搜尋”電腦管理” → 滑鼠左鍵點選 ”服務與應用程式” → 滑鼠左鍵點選 ”服務” → 滑鼠右鍵點選 ”Mosquitto Broker” ，即可啟動服務。
 
 下載[6]MQTT.fx 軟體來測試 MQTT Broker 是否能成功運行，預先設定好 IP Address 與 port 並成功連線，再測試對主題(Topic)的發布與訂閱(Publish/Subscribe)。
 
-### 1.6	Node-RED & MariaDB 
+### 1.7	Node-RED & MariaDB 
 安裝[7]MariaDB 資料庫管理系統，隨後開啟 HeidiSQL 資料庫管理工具，即可新增欲建立的資料庫網路類型。
 
 *以下圖片是作者所建立的資料庫

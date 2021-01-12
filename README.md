@@ -4,7 +4,7 @@
 In recent years, with the maturity of deep learning technology, the problem of image recognition has become easier to solve, and it has begun to be applied to various industries. This paper attempts to apply this technology to solve the problem of bird damage in traditional agriculture. Among agricultural damages, apart from natural disasters, the largest case should be the eating disasters of birds or insects. In this paper, we propose the architecture and prototype design of a bird repellent system based on artificial intelligence of things (AIoT). In this system, we train a neural network model that can recognize birds, and implement it on a small single-board computer equipped with GPU (NVIDIA Jetson Nano). The system will be set up in the farmland, and capture the image via camera. If there is a bird group, it will activate the ultrasonic bird-repellent device through a long-range LPWAN  (Low-Power WAN) wireless network  to drive the bird away.
 
 ## System structure
-![image](https://github.com/TzuHaoTsai/AIoT_Smart-Farming/blob/main/Smart-Farming-System.png)
+![image](https://github.com/TzuHaoTsai/AIoT_Smart-Farming/blob/main/images/System%20structure.png)
 
 ## 實驗步驟
 
@@ -38,7 +38,6 @@ In recent years, with the maturity of deep learning technology, the problem of i
 
 ![image](https://github.com/TzuHaoTsai/AIoT_Smart-Farming/blob/main/images/SQL_1.png)
 ![image](https://github.com/TzuHaoTsai/AIoT_Smart-Farming/blob/main/images/SQL_2.png)
-![image](https://github.com/TzuHaoTsai/AIoT_Smart-Farming/blob/main/images/SQL_3.png)
 
 下載[8]Node.js與Node-RED，我們即可透過Node-RED撈取MQTT Broker中特定主題(Topic)的資料，並且將資料新增到資料庫中。
 

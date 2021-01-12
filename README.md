@@ -23,10 +23,9 @@ In recent years, with the maturity of deep learning technology, the problem of i
 本文作者採用 Ubuntu 作業系統來架設 YOLOv3 的模型訓練環境，請參考[3]說明書來架設運行環境，就可以開始進行模型的訓練。
 
 ### 1.4 Model Training
-本文作者採用[4]COCO dataset(2014)取得2240張含有鳥類的圖片(images)與其標記(Annotations)檔，並捨去一些在農田中較少出現的鳥類圖片，保留了810張圖片當作訓練用的資料集(https://reurl.cc/MZvRzW) ，可參考文章(https://reurl.cc/WEdDzZ) 來學習如何建立資料集與訓練參數之修改，最後運行[3]所提供的 train.py 程式碼，就能得到訓練完成的神經模型模型。
+本文作者從[4]COCO dataset(2014)取得2240張含有鳥類的圖片(images)與其標記(Annotations)檔，並捨去一些在農田中較少出現的鳥類圖片，保留了810張圖片當作訓練用的資料集(https://reurl.cc/MZvRzW) ，可參考文章(https://reurl.cc/WEdDzZ) 來學習如何建立資料集與訓練參數之修改，最後運行[3]所提供的模型訓練程式碼，即可得到訓練完成的神經網路模型。
 
-最後，您可以運行[3]所提供的影像推論程式碼，就可用來評估模型的好壞。
-若準確率為佳，就可以在 NVIDIA Jetson Nano 上採用 keras-yolo3(https://github.com/qqwweee/keras-yolo3) 進行影像推論。
+您可以運行[3]所提供的影像推論程式碼，就可以評估模型的好壞，若準確率為佳，就可以在 NVIDIA Jetson Nano 上採用 keras-yolo3(https://github.com/qqwweee/keras-yolo3) 進行影像推論。
 
 *而您也可以蒐集更多具有鳥群物件的圖片，並自行對圖片進行標記，就可以訓練出屬於自己的神經網路模型。
 

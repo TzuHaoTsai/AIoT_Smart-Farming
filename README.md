@@ -28,7 +28,7 @@ In recent years, with the maturity of deep learning technology, the problem of i
 將 keras-yolo3 的 yolo.py 捨棄，取代為本文的 Jetson Nano code/yolo.py，我們新增了 LoRa module 指令傳送、MQTT 資料上雲等程式碼。
 
 
-我們採用畫面寬高值為 1280(px)*720(px)、AVC視訊編碼方式的測試影片(https://reurl.cc/5oloGV) 作為驗證使用。在程式碼中，由 OpenCV 套件導入測試用的影片(test.mp4)，並且採用 keras 套件將訓練完成的模型導入程式中，依序地對每一張圖片進行模型推論，而實驗過程中觀察到影像串流的 fps(Frame per Second)落在4~6幀。
+我們採用畫面寬高值為 1280(px)*720(px)、AVC視訊編碼方式的測試影片(https://reurl.cc/AgqgVK) 作為驗證使用。在程式碼中，由 OpenCV 套件導入測試用的影片(test.mp4)，並且採用 keras 套件將訓練完成的模型導入程式中，依序地對每一張圖片進行模型推論，而實驗過程中觀察到影像串流的 fps(Frame per Second)落在4~6幀。
 
 *您也可以採用像是 Caffe、TensorRT 等模型框架進行影像推論，就可能達到更快的推論速度。
 

@@ -30,7 +30,7 @@ In recent years, with the maturity of deep learning technology, the problem of i
 ### 1.5 Inference
 經過模型的驗證後，若準確率為佳，就可以在 NVIDIA Jetson Nano 上採用 keras-yolo3 : https://github.com/qqwweee/keras-yolo3 進行影像推論，而執行影像推論程式(yolo_video.py)時所需的主要套件為 keras(2.2.4版)、tensorflow-gpu(1.13.1版)。
 
-您可以先運行 keras-yolo3 所提供的影像推論程式(yolo_video.py)做影像推論，本文作者採用畫面寬高值為 1280(px)*720(px)、AVC視訊編碼方式的測試影片(https://reurl.cc/4yRQbj) 作為驗證使用。在程式碼中，由 OpenCV 套件導入測試用的影片(test.mp4)，並且採用 keras 套件將訓練完成的模型導入程式中，依序地對每一張圖片進行模型推論，而實驗過程中觀察到影像串流的 fps(Frame per Second)落在4~6幀。
+您可以先運行 keras-yolo3 所提供的影像推論程式(yolo_video.py)，而本文是採用畫面寬高值為 1280(px)*720(px)、AVC視訊編碼方式的測試影片(https://reurl.cc/4yRQbj) 作為驗證使用。在程式碼中，由 OpenCV 套件導入測試用的影片(test.mp4)，並藉由 keras 套件將訓練完成的模型導入程式中，最後依序地對每一張圖片進行模型推論，而實驗過程中觀察到影像串流的 fps(Frame per Second)落在4~6幀。
 
 ![image](https://github.com/TzuHaoTsai/AIoT_Smart-Farming/blob/main/images/result.jpg)
 

@@ -35,7 +35,7 @@ In recent years, with the maturity of deep learning technology, the problem of i
 *您也可以採用像是 Caffe、TensorRT 等模型框架進行影像推論，就可能達到更快的推論速度。
 
 ### 1.6	MQTT Broker
-若您想讓 Jetson Nano 的資料上傳至雲端，首先得要把 keras-yolo3 的 yolo.py 捨棄掉，取代為本文的 Jetson Nano code/yolo.py，我們新增了 LoRa module 指令傳送、MQTT 資料上雲等程式碼。
+若您想使用攝影鏡頭讀取影像進行影像推論，且 Jetson Nano 的資料上傳至雲端，就得要把 keras-yolo3 的 yolo.py 捨棄掉，取代為本文的 Jetson Nano code/yolo.py，我們新增了 LoRa module 指令傳送、MQTT 資料上雲等程式碼。
 
 從官方網站下載[5]mosquitto軟體並開啟此服務，在本機 Window 10 作業系統中點選”開始” → 搜尋”電腦管理” → 滑鼠左鍵點選 ”服務與應用程式” → 滑鼠左鍵點選 ”服務” → 滑鼠右鍵點選 ”Mosquitto Broker” ，即可啟動服務。
 

@@ -32,7 +32,7 @@ In recent years, with the maturity of deep learning technology, the problem of i
 ### 1.5 Inference
 在 NVIDIA Jetson Nano 上採用 keras-yolo3 進行影像推論前，需要做模型的型態轉換，運行 keras-yolo3 所提供的 convert.py 程式碼，即可將 YOLOV3 模型檔轉換成適用於 Keras 框架的模型檔。
 
-本文是採用畫面寬高值為 1280(px)*720(px)、AVC視訊編碼方式的測試影片(https://reurl.cc/4yRQbj)作為驗證使用，而我們運行 keras-yolo3 所提供的影像推論程式(yolo_video.py)，由 OpenCV 套件導入測試用的影片(test.mp4)，且使用 keras 套件導入先前轉換完的模型檔，即可依序地對每一張圖片進行影像推論，而實驗過程中觀察到影像串流的 fps(Frame per Second)落在4~6幀。
+本文是採用畫面寬高值為 1280(px)*720(px)、AVC視訊編碼方式的測試影片(https://reurl.cc/4yRQbj) 作為驗證使用，而我們運行 keras-yolo3 所提供的影像推論程式(yolo_video.py)，由 OpenCV 套件導入測試用的影片(test.mp4)，且使用 keras 套件導入先前轉換完的模型檔，即可依序地對每一張圖片進行影像推論，而實驗過程中觀察到影像串流的 fps(Frame per Second)落在4~6幀。
 
 *運行影像推論程式(yolo_video.py)時所需的主要套件為 keras(2.2.4版)、tensorflow-gpu(1.13.1版)。
 

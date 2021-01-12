@@ -46,6 +46,7 @@ In recent years, with the maturity of deep learning technology, the problem of i
 
 下載[8] Node.js 與 Node-RED，並導入 Server code/MQTT_DBS_Chart.json。
 
+
 *請點擊紅色框選處的節點，並且伺服端的欄位設定為您架設 MQTT Broker 的 IP Address 與 Port
 ![image](https://github.com/TzuHaoTsai/AIoT_Smart-Farming/blob/main/images/NodeRED_1.png)
 

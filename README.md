@@ -77,5 +77,5 @@ In recent years, with the maturity of deep learning technology, the problem of i
 
 [8] Node-RED & Node.js : https://nodered.org/docs/getting-started/windows#1-install-nodejs
 
-[9] Pycharm : https://www.jetbrains.com/pycharm/
+[9] PyCharm : https://www.jetbrains.com/pycharm/
 

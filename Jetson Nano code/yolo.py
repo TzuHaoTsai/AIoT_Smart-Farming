@@ -6,7 +6,7 @@ Class definition of YOLO_v3 style detection model on image and video
 import colorsys
 import os
 from timeit import default_timer as timer
-
+import cv2
 import numpy as np
 from keras import backend as K
 from keras.models import load_model
@@ -17,77 +17,159 @@ from yolo3.model import yolo_eval, yolo_body, tiny_yolo_body
 from yolo3.utils import letterbox_image
 import os
 from keras.utils import multi_gpu_model
+
 import paho.mqtt.publish as publish
 import time
+import paho.mqtt.client as paho
+
+MQTT_SERVER = "140.127.196.41"
+MQTT_PORT = 18883
+MQTT_client = paho.Client("MQTT_client")
+MQTT_client.connect(MQTT_SERVER,MQTT_PORT)
+
+import Jetson.GPIO as GPIO
+import threading
+
+#LED
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+GPIO.setup(18,GPIO.OUT)
+
 import serial
 import serial.tools.list_ports
 
-#MQTT_SERVER = "140.127.196.41"
-MQTT_SERVER = "192.168.1.102"
+import tensorflow as tf
+import json
 
-#LoRa module transmission
+from datetime import datetime
+from datetime import date
+
+def flash():
+    print("Flash function be loaded into program")
+    while True:
+        GPIO.output(18,GPIO.HIGH)
+        time.sleep(1)
+        GPIO.output(18,GPIO.LOW)
+        time.sleep(1)
+
+number=0
+rftx="rf tx "
+
 class LoRaapi:
-    number=0
-    def __init__(self, port_num):
+    def __init__(self):
+        global number
         state=True
-        #number=0
         while state==True:
             self.PortList = serial.tools.list_ports.comports()#print port and board
-            print(len(self.PortList))
+            print("serial port list number == ",len(self.PortList))
             for i in range(len(self.PortList)):
-                print("list==",i)
-                print("port num==",self.PortList[i].device)
-                if self.PortList[i].device==port_num:
-                    print("port num==",self.PortList[i].device)
+                try:
+                    print("list ==", i)
+                    print("port num ==", self.PortList[i].device)
                     self.serial_port = serial.Serial(
-                        port = port_num,
-                        baudrate = 115200,
-                        bytesize = serial.EIGHTBITS,
-                        parity = serial.PARITY_NONE,
-                        stopbits = serial.STOPBITS_ONE,
-                        timeout = 1.0,
+                        port=self.PortList[i].device,
+                        baudrate=115200,
+                        bytesize=serial.EIGHTBITS,
+                        parity=serial.PARITY_NONE,
+                        stopbits=serial.STOPBITS_ONE,
+                        timeout=1.0,
                     )
-                    number=i
-                    self.serial_port.write(b'sip get_hw_model')
-##                    c=self.serial_port.read(10)
-##                    print(c)
-                    c=self.serial_port.read_until(b'S76S\n')
+                except:
+                    continue
+                else:
+                    #set lora
+                    '''
+                    self.serial_port.write(b'sip factory_reset')
+                    c = self.serial_port.read_until(b'\n\r>> S76S\n')
                     print(c)
-                    #self.serial_port.close()
-                    state=False
-    def transmit(self,lora_num,data):
-        print(self.PortList[self.number].device)
-        print(lora_num)
-        print(type(lora_num))
-        print(data)
-        print(type(data))
-        b=lora_num+data
-        print(b)
-        print(type(b))
-        b=str.encode(b)
-        print(b)
-        print(type(b))
-        d=b'rf tx '+b
-        print(d)
-        self.serial_port.write(d)
-        c=self.serial_port.read_until(b'S76S')
-        #d=self.serial_port.read_until(b'ok')
+
+                    self.serial_port.write(b'rf set_sync 12')
+                    c = self.serial_port.read_until(b'\n\r>> S76S\n')
+                    print(c)
+
+                    self.serial_port.write(b'rf set_freq 922500000')
+                    c = self.serial_port.read_until(b'\n\r>> S76S\n')
+                    print(c)
+
+                    self.serial_port.write(b'rf set_sf 10')
+                    c = self.serial_port.read_until(b'\n\r>> S76S\n')
+                    print(c)
+
+                    self.serial_port.write(b'rf set_bw 125')
+                    c = self.serial_port.read_until(b'\n\r>> S76S\n')
+                    print(c)
+
+                    self.serial_port.write(b'rf save')
+                    c = self.serial_port.read_until(b'\n\r>> S76S\n')
+                    print(c)
+                    '''
+                    
+                    self.serial_port.write(b'sip reset')
+                    c = self.serial_port.read_until(b'\n\r>> S76S\n')
+                    print(c)
+                    
+                    self.serial_port.write(b'sip get_hw_model')
+                    c = self.serial_port.read_until(b'\n\r>> S76S\n')
+                    print(c)
+                    '''
+                    if self.PortList[i].device == "COM5":
+                        self.serial_port.write(b'rf rx_con on')
+                        c=self.serial_port.read_until(b'\n\r>> S76S\n')
+                        print(c)
+                    '''
+                    if c == b'\n\r>> S76S\n':
+                        number = i
+                        state = False
+                        break
+                finally:
+                    self.serial_port.close()
+                    print("init() close lora")
+    def open(self,lora_num):
+        global number,rftx
+        self.portnum = serial.tools.list_ports.comports()
+        self.port = serial.Serial(
+            port=self.portnum[number].device,
+            baudrate=115200,
+            bytesize=serial.EIGHTBITS,
+            parity=serial.PARITY_NONE,
+            stopbits=serial.STOPBITS_ONE,
+            timeout=5.0,
+        )
+        data1111=rftx+lora_num + "1111"
+        data1111 = str.encode(data1111)
+        print(data1111)
+        self.port.write(data1111)
+        c = self.port.read_until(b'radio_tx_ok')
         print(c)
-        if c[5]==79 and c[6]==107:
-            if c[22]==111 and c[23]==107:
-                print("Successful")
-            elif c[19]==101 and c[20]==114 and c[21]==114:
-                print("Not successful,reset")
-        elif c[5]==73 and c[6]==110 and c[7]==118 and c[8]==97 and c[9]==108 and c[10]==105 and c[11]==100:
-            print("Invalid")
+        self.port.close()
+        #print("open() close lora")
+    def close(self,lora_num):
+        global number, rftx
+        self.portnum = serial.tools.list_ports.comports()
+        self.port = serial.Serial(
+            port=self.portnum[number].device,
+            baudrate=115200,
+            bytesize=serial.EIGHTBITS,
+            parity=serial.PARITY_NONE,
+            stopbits=serial.STOPBITS_ONE,
+            timeout=5.0,
+        )
+        data1111 = rftx + lora_num + "1100"
+        data1111 = str.encode(data1111)
+        print(data1111)
+        self.port.write(data1111)
+        c = self.port.read_until(b'radio_tx_ok')
+        print(c)
+        self.port.close()
+        #print("close() close lora")
 
 class YOLO(object):
     _defaults = {
-        "model_path": 'Yolov3_model_h5/yolov3-tiny-bird_15000.h5',	#model_data/yolov3-tiny-bird_30000.h5 #V3_h5/yolov3-bird_18000.h5
-        "anchors_path": 'model_data/tiny_yolo_anchors.txt',	#yolo_anchors.txt
-        "classes_path": 'model_data/coco_classes_bird.txt',	#coco_classes_bird.txt
-        "score" : 0.5,
-        "iou" : 0.45,
+        "model_path": '/home/jetson/Desktop/keras-yolo3_nonet/model_data/yolov3-tiny-bird_30000.h5',	#model_data/yolov3-tiny-bird_30000.h5 #V3_h5/yolov3-bird_18000.h5
+        "anchors_path": '/home/jetson/Desktop/keras-yolo3_nonet/model_data/tiny_yolo_anchors.txt',	#yolo_anchors.txt
+        "classes_path": '/home/jetson/Desktop/keras-yolo3_nonet/model_data/coco_classes_bird.txt',	#coco_classes_bird.txt
+        "score" : 0.9,
+        "iou" : 0.9,
         "model_image_size" : (416, 416), 
         "gpu_num" : 1,
     }
@@ -187,9 +269,11 @@ class YOLO(object):
                 K.learning_phase(): 0
             })
 
-        #current time
-        seconds = time.time()
-        bird_time = time.ctime(seconds)
+        today = date.today()
+        day = str(today.strftime("%Y/%m/%d"))
+
+        now = datetime.now()
+        day_time = now.strftime("%H:%M:%S")
 
         print()
         print('Found {} boxes for {}'.format(len(out_boxes), 'img'))
@@ -200,7 +284,8 @@ class YOLO(object):
             appear_bird = False
         bird_count = len(out_boxes)
 
-        font = ImageFont.truetype(font='font/FiraMono-Medium.otf',
+        #font = ImageFont.truetype(font='font/FiraMono-Medium.otf',
+        font = ImageFont.truetype(font='/usr/share/fonts/opentype/NotoSerifCJK-Bold.ttc',
                     size=np.floor(3e-2 * image.size[1] + 0.5).astype('int32'))
         thickness = (image.size[0] + image.size[1]) // 300
 
@@ -238,7 +323,7 @@ class YOLO(object):
         
         end = timer()
         print(end - start)
-        return image, appear_bird, bird_count, bird_time
+        return image, appear_bird, bird_count, day, day_time
 
     def close_session(self):
         self.sess.close()
@@ -270,26 +355,32 @@ def gstreamer_pipeline(
         )
     )
 
-def send_data(bird_count, bird_time):
-    f=open("result.jpg", "rb") #3.7kiB in same folder
-
+def send_data(bird_count, day, day_time):
+    f=open("/home/jetson/Desktop/keras-yolo3_net/result.jpg", "rb") #3.7kiB in same folder
     fileContent = f.read()
-    byteArr = bytearray(fileContent)
-    
-    publish.single("AIoT/bird_images", byteArr, hostname=MQTT_SERVER)
-    publish.single("AIoT/bird_count", bird_count, hostname=MQTT_SERVER)
-    publish.single("AIoT/bird_time", bird_time, hostname=MQTT_SERVER)
+    bird_images = bytearray(fileContent)
 
+    data = {
+        'day' : day,
+        'time' : day_time,
+        'count' : bird_count,
+    }
+    bird_messenge = json.dumps(data, sort_keys=True, indent=0)
+
+    
+    ret_images = MQTT_client.publish("AIoT/bird_images", bird_images)
+    ret_messenge = MQTT_client.publish("AIoT/bird_messenge", bird_messenge)
+    f.close()
 
 def detect_video(yolo, video_path, output_path=""):
-    import cv2
-    vid = cv2.VideoCapture(video_path)
+
+    #vid = cv2.VideoCapture("/home/jetson/Desktop/keras-yolo3_net/farm_videos.MOV")
 
     #print(gstreamer_pipeline(flip_method=0))
     #vid = cv2.VideoCapture(gstreamer_pipeline(flip_method=0), cv2.CAP_GSTREAMER)
 
-    #vid = cv2.VideoCapture(0)
-
+    vid = cv2.VideoCapture(-1)
+    
     if not vid.isOpened():
         raise IOError("Couldn't open webcam or video")
     video_FourCC    = int(vid.get(cv2.CAP_PROP_FOURCC))
@@ -297,34 +388,61 @@ def detect_video(yolo, video_path, output_path=""):
     video_size      = (int(vid.get(cv2.CAP_PROP_FRAME_WIDTH)),
                         int(vid.get(cv2.CAP_PROP_FRAME_HEIGHT)))
     isOutput = True if output_path != "" else False
-    if isOutput:
-        print("!!! TYPE:", type(output_path), type(video_FourCC), type(video_fps), type(video_size))
-        out = cv2.VideoWriter(output_path, video_FourCC, video_fps, video_size)
+    #if isOutput:
+        #print("!!! TYPE:", type(output_path), type(video_FourCC), type(video_fps), #type(video_size))
+        #out = cv2.VideoWriter(output_path, video_FourCC, video_fps, video_size)
     accum_time = 0
     curr_fps = 0
     fps = "FPS: ??"
     prev_time = timer()
- 
+
+    #threshold variable
     second_appear = False
-    temp = 0
-    
-    test = LoRaapi("/dev/ttyUSB0")
-    while True:
+
+    #MQTT Publish image limit
+    count = 0
+
+    #LoRa module connection
+    lora_a = LoRaapi()
+
+    #LED flash
+    t = threading.Thread(target=flash,name='flash')
+    t.start()
+
+    next = True
+
+    while next==True:
         return_value, frame = vid.read()
         image = Image.fromarray(frame)
-        image, appear_bird, bird_count, bird_time = yolo.detect_image(image)
-        print(appear_bird)
-
+        image, appear_bird, bird_count, day, day_time = yolo.detect_image(image)
+        
+        if appear_bird==True:
+            next = False
+            print("Open U.S !!")
+            lora_a.open("01")
+            time.sleep(10)
+            lora_a.close("01")
+            time.sleep(15)
+            next = True
+        """
         if appear_bird==True and second_appear==True:
             print("Open U.S !!")
-            test.transmit("01", "1111")
-            test.transmit("01", "1100")
+            lora_a.open("01")
+            #time.sleep(2)
+            #lora_a.open("02")
+            time.sleep(10)
+            lora_a.close("01")
+            #time.sleep(2)
+            #lora_a.close("02")
+            time.sleep(15)
+            appear_bird = False
             second_appear = False
         elif appear_bird==True:
             second_appear = True
         elif appear_bird==False:
             second_appear = False
- 
+        """
+
         result = np.asarray(image)
         curr_time = timer()
         exec_time = curr_time - prev_time
@@ -338,21 +456,19 @@ def detect_video(yolo, video_path, output_path=""):
         cv2.putText(result, text=fps, org=(3, 15), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
                     fontScale=0.50, color=(255, 0, 0), thickness=2)
 
-        cv2.namedWindow("result", cv2.WINDOW_NORMAL)
-        cv2.imshow("result", result)
-        cv2.imwrite("result.jpg", result)
+        #cv2.namedWindow("result", cv2.WINDOW_NORMAL)
+        #cv2.imshow("result", result)
         
-        #send_data(bird_count, bird_time)
-        #send images
-        """
-        f=open("result.jpg", "rb") #3.7kiB in same folder
-        fileContent = f.read()
-        byteArr = bytearray(fileContent)
-        publish.single(MQTT_TOPIC, byteArr, hostname=MQTT_SERVER)
-        """
-        if isOutput:
-            out.write(result)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-    yolo.close_session()
+        if bird_count>0:
+            result = cv2.resize(result, (640,360))
+            cv2.imwrite("/home/jetson/Desktop/keras-yolo3_net/result.jpg", result)
+            send_data(bird_count, day, day_time)
+            #MQTT publish messenges 
 
+        #if isOutput:
+            #out.write(result)
+    
+        #if cv2.waitKey(1) & 0xFF == ord('q'):
+            #break
+    frame.release()
+    yolo.close_session()

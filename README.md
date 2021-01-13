@@ -66,7 +66,7 @@ In recent years, with the maturity of deep learning technology, the problem of i
 經過部署後，Node-RED 就可撈取 MQTT Broker 中特定主題(Topic)的資料，並且將資料新增至資料庫。
 
 ### 1.8 Server
-本文作者採用的[9]PyCharm 作為後臺運作的環境，您需要創立一個新的專案，並且運行 Server code/image_post.py 程式碼，就可以把辨識出鳥群的圖片傳送到 Node-RED dashboard 上。
+本文作者採用的[9]PyCharm 作為後臺運作的環境，您需要創立一個新的專案，並且運行 Server code/read_mqtt_to_local，其主要功能為與 MQTT Broker 建立連線，並且將圖片儲存在本地端，運行 Server code/image_post.py 程式碼後，就可以將辨識出鳥群的圖片傳送到 Node-RED dashboard 上。
 
 ## Reference
 
